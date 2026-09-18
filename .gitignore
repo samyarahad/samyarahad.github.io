@@ -1,0 +1,24 @@
+# dependencies
+node_modules/
+.bun/
+
+# build outputs
+.next/
+export-dist/
+out/
+
+# sandbox / local artifacts
+db/
+dev.log
+server.log
+.zscripts/
+.api-stash/
+scripts/*.log
+
+# misc
+*.png
+!public/**/*.png
+*.webp
+!public/**/*.webp
+.DS_Store
+*.tsbuildinfo
