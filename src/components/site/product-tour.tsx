@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { DashboardMock } from "./dashboard-mock";
 import { UsersMock, ServersMock, ScannerMock, PortsMock, EndpointsMock } from "./product-mocks";
+import { GlowCard } from "./fx";
 
 const TABS = [
   { id: "overview", label: "Overview" },
@@ -81,14 +82,14 @@ export function ProductTour() {
               transition={{ duration: 0.3, ease: "easeOut" }}
             >
               <div className="grid gap-6 lg:grid-cols-[1fr_280px]">
-                <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0c0c0f] p-2.5 shadow-[0_32px_90px_-32px_rgba(0,0,0,0.9)]">
+                <GlowCard radius={200} innerClassName="bg-[#0c0c0f] p-2.5">
                   {tab === "overview" && <DashboardMock className="border-white/[0.05] shadow-none" />}
                   {tab === "users" && <UsersMock />}
                   {tab === "servers" && <ServersMock />}
                   {tab === "endpoints" && <EndpointsMock className="min-h-[320px]" />}
                   {tab === "scanner" && <ScannerMock />}
                   {tab === "ports" && <PortsMock />}
-                </div>
+                </GlowCard>
                 <aside className="flex flex-col justify-between rounded-2xl border border-white/[0.07] bg-[#0e0e11] p-6">
                   <div>
                     <h3 className="text-[15.5px] font-semibold text-zinc-100">

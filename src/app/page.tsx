@@ -6,6 +6,7 @@ import { Infrastructure, Changelog, CtaSection, Footer } from "@/components/site
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col bg-[#09090b] text-zinc-100">
+      <div className="pp-noise" aria-hidden />
       <Navbar />
       <main className="flex-1">
         <Hero />

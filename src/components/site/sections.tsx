@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Reveal, Card } from "./feature-bento";
+import { BreathingOrb, GlowCard, PixelField } from "./fx";
 import { cn } from "@/lib/utils";
 
 /* ----------------------------- infrastructure ----------------------------- */
@@ -181,36 +182,39 @@ export function CtaSection() {
     <section id="cta" className="relative py-24 sm:py-28">
       <div className="mx-auto max-w-6xl px-5 lg:px-8">
         <Reveal>
-          <div className="relative overflow-hidden rounded-3xl border border-white/[0.08] bg-[#0e0e11] px-6 py-16 text-center sm:px-12 sm:py-20">
-            <div className="pp-grid-bg absolute inset-0 opacity-70 [mask-image:radial-gradient(ellipse_60%_70%_at_50%_40%,black,transparent)]" />
-            <div className="pointer-events-none absolute -top-24 left-1/2 h-72 w-[560px] -translate-x-1/2 rounded-full bg-[#ff5a1f]/[0.13] blur-[110px]" />
-            <div className="relative">
-              <h2 className="mx-auto max-w-2xl text-balance text-[32px] font-semibold leading-[1.1] tracking-[-0.025em] text-zinc-50 sm:text-[44px]">
-                Put your network on one screen this afternoon.
-              </h2>
-              <p className="mx-auto mt-4 max-w-lg text-[15.5px] leading-relaxed text-zinc-400">
-                Register your first server, pair an endpoint and watch live traffic — in under
-                fifteen minutes, free up to 25 endpoints.
-              </p>
-              <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-                <a
-                  href="#top"
-                  className="rounded-lg bg-[#ff5a1f] px-6 py-3 text-[15px] font-semibold text-white shadow-[0_0_0_1px_rgba(255,255,255,0.1)_inset,0_12px_36px_-8px_rgba(255,90,31,0.7)] transition-colors hover:bg-[#ff6b35]"
-                >
-                  Get started free
-                </a>
-                <a
-                  href="#tour"
-                  className="rounded-lg border border-white/[0.12] bg-white/[0.03] px-6 py-3 text-[15px] font-medium text-zinc-200 transition-colors hover:border-white/25 hover:bg-white/[0.06]"
-                >
-                  Talk to us first
-                </a>
+          <GlowCard radius={260} className="rounded-3xl">
+            <div className="relative overflow-hidden px-6 py-16 text-center sm:px-12 sm:py-20">
+              <div className="pp-grid-bg absolute inset-0 opacity-70 [mask-image:radial-gradient(ellipse_60%_70%_at_50%_40%,black,transparent)]" />
+              <BreathingOrb className="-top-24 left-1/2 h-72 w-[560px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(255,90,31,0.16),transparent)] blur-[110px]" />
+              <PixelField count={64} seed={21} active className="opacity-60 [mask-image:radial-gradient(ellipse_70%_80%_at_50%_50%,black,transparent)]" />
+              <div className="relative">
+                <h2 className="mx-auto max-w-2xl text-balance text-[32px] font-semibold leading-[1.1] tracking-[-0.025em] text-zinc-50 sm:text-[44px]">
+                  Put your network on one screen this afternoon.
+                </h2>
+                <p className="mx-auto mt-4 max-w-lg text-[15.5px] leading-relaxed text-zinc-400">
+                  Register your first server, pair an endpoint and watch live traffic — in under
+                  fifteen minutes, free up to 25 endpoints.
+                </p>
+                <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+                  <a
+                    href="#top"
+                    className="pp-shine relative overflow-hidden rounded-lg bg-[#ff5a1f] px-6 py-3 text-[15px] font-semibold text-white shadow-[0_0_0_1px_rgba(255,255,255,0.1)_inset,0_12px_36px_-8px_rgba(255,90,31,0.7)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#ff6b35]"
+                  >
+                    Get started free
+                  </a>
+                  <a
+                    href="#tour"
+                    className="rounded-lg border border-white/[0.12] bg-white/[0.03] px-6 py-3 text-[15px] font-medium text-zinc-200 transition-all duration-300 hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/[0.06]"
+                  >
+                    Talk to us first
+                  </a>
+                </div>
+                <p className="mt-6 text-[12.5px] text-zinc-600">
+                  Self-hosted option available · your data never leaves your network unless you say so
+                </p>
               </div>
-              <p className="mt-6 text-[12.5px] text-zinc-600">
-                Self-hosted option available · your data never leaves your network unless you say so
-              </p>
             </div>
-          </div>
+          </GlowCard>
         </Reveal>
       </div>
     </section>
@@ -241,8 +245,7 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
             <div className="flex items-center gap-2.5">
-              { }
-              <img src="/brand/pixel-ping-logo-nav.png" alt="" className="h-7 w-7 rounded-md ring-1 ring-white/10" />
+              <img src="/brand/logo-mark.png" alt="" className="h-8 w-8 object-contain" />
               <span className="text-[15px] font-semibold tracking-tight">Pixel &amp; Ping</span>
             </div>
             <p className="mt-4 max-w-xs text-[13.5px] leading-relaxed text-zinc-500">

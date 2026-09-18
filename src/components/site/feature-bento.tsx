@@ -1,34 +1,26 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { StatusDot, MiniBars, Sparkline, Avatar } from "./mocks";
 import { UsersMock, ScannerMock, PortsMock, EndpointsMock, LiveTrafficMock } from "./product-mocks";
+import { Counter, GlowCard, PixelField, Reveal } from "./fx";
 
-function Reveal({ children, delay = 0, className }: { children: React.ReactNode; delay?: number; className?: string }) {
+function Card({
+  className,
+  children,
+  pixels,
+  seed = 1,
+}: {
+  className?: string;
+  children: React.ReactNode;
+  pixels?: boolean;
+  seed?: number;
+}) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.55, delay, ease: [0.21, 0.6, 0.35, 1] }}
-      className={className}
-    >
+    <GlowCard innerClassName={className}>
+      {pixels && <PixelField count={44} seed={seed} className="rounded-[15px]" />}
       {children}
-    </motion.div>
-  );
-}
-
-function Card({ className, children }: { className?: string; children: React.ReactNode }) {
-  return (
-    <div
-      className={cn(
-        "group relative overflow-hidden rounded-2xl border border-white/[0.07] bg-[#0e0e11] transition-colors duration-300 hover:border-white/[0.14]",
-        className
-      )}
-    >
-      {children}
-    </div>
+    </GlowCard>
   );
 }
 
@@ -38,7 +30,7 @@ function CardHead({ title, desc, chip }: { title: string; desc: string; chip?: s
       <div className="flex items-center justify-between">
         <h3 className="text-[16.5px] font-semibold tracking-[-0.01em] text-zinc-100">{title}</h3>
         {chip && (
-          <span className="rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-0.5 text-[11px] font-medium text-zinc-400">
+          <span className="rounded-full border border-white/[0.08] bg-white/[0.04] px-2.5 py-0.5 text-[11px] font-medium text-zinc-400 transition-colors duration-300 group-hover/glow:border-[#ff5a1f]/40 group-hover/glow:text-[#ff8a5c]">
             {chip}
           </span>
         )}
@@ -49,19 +41,21 @@ function CardHead({ title, desc, chip }: { title: string; desc: string; chip?: s
 }
 
 const STATS = [
-  { v: "1,284", l: "endpoints monitored" },
-  { v: "42 ms", l: "median latency" },
-  { v: "99.98%", l: "fleet uptime, 30d" },
-  { v: "6", l: "PoPs across EU & US" },
+  { v: 1284, l: "endpoints monitored", suffix: "" },
+  { v: 42, l: "median latency", suffix: " ms" },
+  { v: 99.98, l: "fleet uptime, 30d", suffix: "%", decimals: 2 },
+  { v: 6, l: "PoPs across EU & US", suffix: "" },
 ];
 
 export function StatsStrip() {
   return (
-    <section className="border-y border-white/[0.06] bg-[#0b0b0e]">
+    <section className="relative border-y border-white/[0.06] bg-[#0b0b0e]">
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-px px-5 sm:grid-cols-4 lg:px-8">
         {STATS.map((s, i) => (
           <Reveal key={s.l} delay={i * 0.06} className="py-8 text-center sm:py-10">
-            <p className="text-[28px] font-semibold tracking-tight tabular-nums text-zinc-50">{s.v}</p>
+            <p className="text-[28px] font-semibold tracking-tight text-zinc-50">
+              <Counter value={s.v} suffix={s.suffix} decimals={s.decimals ?? 0} />
+            </p>
             <p className="mt-1 text-[12.5px] text-zinc-500">{s.l}</p>
           </Reveal>
         ))}
@@ -88,7 +82,7 @@ export function FeatureBento() {
         <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {/* 1 — live traffic */}
           <Reveal className="lg:col-span-2">
-            <Card className="h-full">
+            <Card className="h-full" pixels seed={3}>
               <CardHead
                 title="Live traffic analytics"
                 desc="Per-second ingress and egress across every edge node, with anomaly markers the moment a route starts to degrade."
@@ -115,7 +109,7 @@ export function FeatureBento() {
 
           {/* 3 — IP scanner */}
           <Reveal delay={0.05}>
-            <Card className="flex h-full flex-col">
+            <Card className="flex h-full flex-col" pixels seed={11}>
               <CardHead
                 title="Clean-IP scanner"
                 desc="Score pools before you deploy — reachability, reputation, subnet hygiene."

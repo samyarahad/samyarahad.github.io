@@ -1,8 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { DashboardMock } from "./dashboard-mock";
+import {
+  BreathingOrb,
+  BlurWords,
+  GlowButton,
+  GlowCard,
+  Marquee,
+  PixelField,
+  Tilt,
+} from "./fx";
 
 const LINKS = [
   { href: "#features", label: "Features" },
@@ -30,9 +40,16 @@ export function Navbar() {
       )}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 lg:px-8">
-        <a href="#top" className="flex items-center gap-2.5">
-          { }
-          <img src="/brand/pixel-ping-logo-nav.png" alt="Pixel & Ping logo" className="h-7 w-7 rounded-md ring-1 ring-white/10" />
+        <a href="#top" className="group flex items-center gap-2.5">
+          {/* new brand mark */}
+          <span className="relative flex h-8 w-8 items-center justify-center">
+            <span className="absolute inset-0 rounded-lg bg-[#ff5a1f]/0 blur-md transition-all duration-300 group-hover:bg-[#ff5a1f]/25" />
+            <img
+              src="/brand/logo-mark.png"
+              alt="Pixel & Ping logo"
+              className="relative h-8 w-8 object-contain transition-transform duration-300 group-hover:scale-105"
+            />
+          </span>
           <span className="text-[15px] font-semibold tracking-tight">Pixel &amp; Ping</span>
         </a>
 
@@ -41,9 +58,10 @@ export function Navbar() {
             <a
               key={l.href}
               href={l.href}
-              className="rounded-md px-3 py-2 text-[13.5px] text-zinc-400 transition-colors hover:bg-white/[0.05] hover:text-zinc-100"
+              className="group relative rounded-md px-3 py-2 text-[13.5px] text-zinc-400 transition-colors hover:bg-white/[0.05] hover:text-zinc-100"
             >
               {l.label}
+              <span className="absolute inset-x-3 -bottom-px h-px origin-center scale-x-0 bg-gradient-to-r from-transparent via-[#ff5a1f] to-transparent transition-transform duration-300 group-hover:scale-x-100" />
             </a>
           ))}
         </nav>
@@ -57,7 +75,7 @@ export function Navbar() {
           </a>
           <a
             href="#cta"
-            className="rounded-lg bg-[#ff5a1f] px-3.5 py-2 text-[13.5px] font-semibold text-white shadow-[0_0_0_1px_rgba(255,255,255,0.08)_inset,0_8px_24px_-8px_rgba(255,90,31,0.6)] transition-colors hover:bg-[#ff6b35]"
+            className="pp-shine relative overflow-hidden rounded-lg bg-[#ff5a1f] px-3.5 py-2 text-[13.5px] font-semibold text-white shadow-[0_0_0_1px_rgba(255,255,255,0.08)_inset,0_8px_24px_-8px_rgba(255,90,31,0.6)] transition-colors hover:bg-[#ff6b35]"
           >
             Get started
           </a>
@@ -108,66 +126,140 @@ function Check({ children }: { children: React.ReactNode }) {
   );
 }
 
+const TICKER = [
+  "edge-01.fra · healthy · 8 ms",
+  "scan pool 185.220.0.0/16 · score 94",
+  "edge-03.ams · degraded → re-routed",
+  "core-01 · load 45% · 7d",
+  "42 ms median across 6 PoPs",
+  "wireguard tunnel · handshake ok",
+  "backup snapshot completed 04:00 UTC",
+  "99.98% fleet uptime, 30 days",
+];
+
 export function Hero() {
   return (
     <section id="top" className="relative overflow-hidden pb-16 pt-32 sm:pt-40">
-      {/* backdrop */}
+      {/* ambient layer: grid + breathing orbs */}
       <div className="pp-grid-bg pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,black,transparent)]" />
-      <div className="pointer-events-none absolute -top-40 left-1/2 h-[480px] w-[820px] -translate-x-1/2 rounded-full bg-[#ff5a1f]/[0.09] blur-[130px]" />
+      <BreathingOrb className="-top-48 left-1/2 h-[520px] w-[880px] -translate-x-1/2 bg-[radial-gradient(closest-side,rgba(255,90,31,0.13),transparent)] blur-[120px]" />
+      <BreathingOrb className="right-[-140px] top-[380px] h-[380px] w-[380px] bg-[radial-gradient(closest-side,rgba(255,90,31,0.07),transparent)] blur-[90px]" delay={2.4} />
 
       <div className="relative mx-auto max-w-6xl px-5 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
-          <a
-            href="#changelog"
-            className="group inline-flex items-center gap-2 rounded-full border border-white/[0.09] bg-white/[0.04] py-1 pl-1 pr-3 text-[12.5px] text-zinc-400 transition-colors hover:border-white/20"
+          {/* brand medallion */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, filter: "blur(12px)" }}
+            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+            transition={{ duration: 0.9, ease: [0.21, 0.6, 0.35, 1] }}
+            className="relative mx-auto mb-8 flex h-24 w-24 items-center justify-center"
           >
-            <span className="rounded-full bg-[#ff5a1f] px-2 py-0.5 text-[11px] font-semibold text-white">v2.4</span>
-            IP Scanner 2.0 &amp; WireGuard profiles are live
-            <svg viewBox="0 0 16 16" className="h-3 w-3 transition-transform group-hover:translate-x-0.5" fill="none">
-              <path d="M6 3.5 10.5 8 6 12.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </a>
+            <div className="pp-breathe absolute inset-0 rounded-full bg-[radial-gradient(closest-side,rgba(255,90,31,0.22),transparent)] blur-xl" />
+            <img
+              src="/brand/logo-full.png"
+              alt="Pixel & Ping"
+              className="relative h-24 w-24 object-contain drop-shadow-[0_0_28px_rgba(255,90,31,0.35)]"
+            />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+          >
+            <a
+              href="#changelog"
+              className="group inline-flex items-center gap-2 rounded-full border border-white/[0.09] bg-white/[0.04] py-1 pl-1 pr-3 text-[12.5px] text-zinc-400 transition-colors hover:border-[#ff5a1f]/40 hover:text-zinc-200"
+            >
+              <span className="rounded-full bg-[#ff5a1f] px-2 py-0.5 text-[11px] font-semibold text-white">v2.4</span>
+              IP Scanner 2.0 &amp; WireGuard profiles are live
+              <svg viewBox="0 0 16 16" className="h-3 w-3 transition-transform group-hover:translate-x-0.5" fill="none">
+                <path d="M6 3.5 10.5 8 6 12.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </a>
+          </motion.div>
 
           <h1 className="mt-6 text-balance text-[40px] font-semibold leading-[1.06] tracking-[-0.03em] text-zinc-50 sm:text-[56px]">
-            Your whole network.
+            <BlurWords text="Your whole network." delay={0.25} />
             <br />
-            <span className="text-zinc-400">One calm dashboard.</span>
+            <BlurWords text="One calm dashboard." delay={0.4} wordClassName="text-zinc-400" />
           </h1>
 
-          <p className="mx-auto mt-5 max-w-xl text-pretty text-[16px] leading-relaxed text-zinc-400">
+          <motion.p
+            initial={{ opacity: 0, y: 14, filter: "blur(6px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 0.7, delay: 0.6 }}
+            className="mx-auto mt-5 max-w-xl text-pretty text-[16px] leading-relaxed text-zinc-400"
+          >
             Pixel &amp; Ping brings servers, endpoints, users and live traffic together in a single surface —
             with health checks, clean-IP scanning and port-level visibility built in.
-          </p>
+          </motion.p>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <a
-              href="#tour"
-              className="rounded-lg bg-[#ff5a1f] px-5 py-2.5 text-[14.5px] font-semibold text-white shadow-[0_0_0_1px_rgba(255,255,255,0.1)_inset,0_12px_32px_-8px_rgba(255,90,31,0.65)] transition-colors hover:bg-[#ff6b35]"
-            >
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.72 }}
+            className="mt-8 flex flex-wrap items-center justify-center gap-3"
+          >
+            <GlowButton href="#tour">
               Open live demo
-            </a>
-            <a
-              href="#features"
-              className="rounded-lg border border-white/[0.12] bg-white/[0.03] px-5 py-2.5 text-[14.5px] font-medium text-zinc-200 transition-colors hover:border-white/25 hover:bg-white/[0.06]"
-            >
+              <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none">
+                <path d="M3 8h10m0 0L9 4m4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </GlowButton>
+            <GlowButton href="#features" variant="ghost">
               Explore features
-            </a>
-          </div>
+            </GlowButton>
+          </motion.div>
 
-          <div className="mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.85 }}
+            className="mt-7 flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
+          >
             <Check>Free for networks up to 25 endpoints</Check>
             <Check>No credit card required</Check>
-          </div>
+          </motion.div>
         </div>
 
-        {/* dashboard */}
-        <div className="relative mx-auto mt-14 max-w-5xl">
-          <div className="pointer-events-none absolute -inset-x-8 -top-10 h-40 bg-gradient-to-b from-[#ff5a1f]/[0.12] to-transparent blur-2xl" />
-          <div className="pp-fade-bottom relative max-h-[640px] overflow-hidden rounded-xl">
-            <DashboardMock />
-          </div>
+        {/* live status ticker */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1 }}
+          className="mx-auto mt-10 max-w-3xl"
+        >
+          <Marquee
+            duration={38}
+            items={TICKER.map((t, i) => (
+              <span key={i} className="flex items-center gap-2.5 px-5 text-[11.5px] font-medium tracking-wide text-zinc-500">
+                <span className="h-1 w-1 rounded-full bg-[#ff5a1f]/80" />
+                {t}
+              </span>
+            ))}
+          />
+        </motion.div>
+
+        {/* dashboard — tilt + glowing frame + pixel dust */}
+        <motion.div
+          initial={{ opacity: 0, y: 42, filter: "blur(14px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ duration: 1, delay: 0.9, ease: [0.21, 0.6, 0.35, 1] }}
+          className="relative mx-auto mt-10 max-w-5xl"
+        >
+          <Tilt>
+            <GlowCard radius={220} innerClassName="bg-[#0b0b0e]">
+              <div className="relative max-h-[640px] overflow-hidden rounded-[15px]">
+                <PixelField count={56} seed={7} className="z-10 rounded-[15px]" />
+                <div className="relative z-20">
+                  <DashboardMock />
+                </div>
+              </div>
+            </GlowCard>
+          </Tilt>
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#09090b] to-transparent" />
-        </div>
+        </motion.div>
       </div>
     </section>
   );
