@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { DashboardMock } from "./dashboard-mock";
 import {
@@ -16,10 +16,23 @@ import {
 
 const LINKS = [
   { href: "#features", label: "Features" },
+  { href: "#gallery", label: "Showcase" },
   { href: "#tour", label: "Product" },
   { href: "#infrastructure", label: "Network" },
   { href: "#changelog", label: "Changelog" },
 ];
+
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 140, damping: 26, mass: 0.35 });
+  return (
+    <motion.div
+      aria-hidden
+      style={{ scaleX }}
+      className="pp-progress fixed inset-x-0 top-0 z-[60] h-[2.5px]"
+    />
+  );
+}
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -33,12 +46,14 @@ export function Navbar() {
   }, []);
 
   return (
-    <header
-      className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-        scrolled ? "border-b border-white/[0.06] bg-[#09090b]/85 backdrop-blur-xl" : "bg-transparent"
-      )}
-    >
+    <>
+      <ScrollProgress />
+      <header
+        className={cn(
+          "fixed inset-x-0 top-0 z-50 transition-all duration-300",
+          scrolled ? "border-b border-white/[0.06] bg-[#09090b]/85 backdrop-blur-xl" : "bg-transparent"
+        )}
+      >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 lg:px-8">
         <a href="#top" className="group flex items-center gap-2.5">
           {/* new brand mark */}
@@ -110,7 +125,8 @@ export function Navbar() {
           ))}
         </div>
       )}
-    </header>
+      </header>
+    </>
   );
 }
 
@@ -138,8 +154,17 @@ const TICKER = [
 ];
 
 export function Hero() {
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const dashY = useTransform(scrollYProgress, [0, 1], [0, 90]);
+  const dashScale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
+  const dashOpacity = useTransform(scrollYProgress, [0, 0.9], [1, 0.45]);
+
   return (
-    <section id="top" className="relative overflow-hidden pb-16 pt-32 sm:pt-40">
+    <section id="top" ref={heroRef} className="relative overflow-hidden pb-16 pt-32 sm:pt-40">
       {/* ambient layer: grid + breathing orbs */}
       <div className="pp-grid-bg pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_70%_60%_at_50%_0%,black,transparent)]" />
       <BreathingOrb className="-top-48 left-1/2 h-[520px] w-[880px] -translate-x-1/2 bg-[radial-gradient(closest-side,rgba(255,90,31,0.13),transparent)] blur-[120px]" />
@@ -241,23 +266,27 @@ export function Hero() {
           />
         </motion.div>
 
-        {/* dashboard — tilt + glowing frame + pixel dust */}
+        {/* dashboard — tilt + glowing frame + pixel dust + scroll parallax
+            (entrance and parallax live on separate layers so motion values
+             never fight over the same transform source) */}
         <motion.div
           initial={{ opacity: 0, y: 42, filter: "blur(14px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 1, delay: 0.9, ease: [0.21, 0.6, 0.35, 1] }}
           className="relative mx-auto mt-10 max-w-5xl"
         >
-          <Tilt>
-            <GlowCard radius={220} innerClassName="bg-[#0b0b0e]">
-              <div className="relative max-h-[640px] overflow-hidden rounded-[15px]">
-                <PixelField count={56} seed={7} className="z-10 rounded-[15px]" />
-                <div className="relative z-20">
-                  <DashboardMock />
+          <motion.div style={{ y: dashY, scale: dashScale, opacity: dashOpacity }}>
+            <Tilt>
+              <GlowCard radius={220} innerClassName="bg-[#0b0b0e]">
+                <div className="relative max-h-[640px] overflow-hidden rounded-[15px]">
+                  <PixelField count={56} seed={7} className="z-10 rounded-[15px]" />
+                  <div className="relative z-20">
+                    <DashboardMock />
+                  </div>
                 </div>
-              </div>
-            </GlowCard>
-          </Tilt>
+              </GlowCard>
+            </Tilt>
+          </motion.div>
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#09090b] to-transparent" />
         </motion.div>
       </div>

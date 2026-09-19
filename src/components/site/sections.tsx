@@ -49,6 +49,26 @@ export function Infrastructure() {
                 </span>
               ))}
             </div>
+
+            {/* fiber imagery — ties the copy to something you can feel */}
+            <div className="group relative mt-8 overflow-hidden rounded-2xl border border-white/[0.08]">
+              <img
+                src="/showcase/traffic.jpg"
+                alt="Live fiber traffic"
+                loading="lazy"
+                className="h-56 w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.21,0.6,0.35,1)] group-hover:scale-[1.04] sm:h-64"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#09090b]/85 via-transparent to-transparent" />
+              <div className="absolute bottom-3.5 left-4 flex items-center gap-2">
+                <span className="rounded-full border border-white/10 bg-black/50 px-2.5 py-1 font-mono text-[10.5px] tracking-wide text-zinc-300 backdrop-blur-md">
+                  fra-01 · 1s resolution
+                </span>
+                <span className="flex items-center gap-1.5 rounded-full border border-white/10 bg-black/50 px-2.5 py-1 text-[10.5px] text-emerald-400 backdrop-blur-md">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  streaming
+                </span>
+              </div>
+            </div>
           </Reveal>
 
           <Reveal delay={0.1}>
@@ -184,6 +204,15 @@ export function CtaSection() {
         <Reveal>
           <GlowCard radius={260} className="rounded-3xl">
             <div className="relative overflow-hidden px-6 py-16 text-center sm:px-12 sm:py-20">
+              {/* ambient network imagery under everything */}
+              <img
+                src="/showcase/network.jpg"
+                alt=""
+                aria-hidden
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover opacity-[0.22]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#09090b]/70 via-[#09090b]/55 to-[#09090b]/85" />
               <div className="pp-grid-bg absolute inset-0 opacity-70 [mask-image:radial-gradient(ellipse_60%_70%_at_50%_40%,black,transparent)]" />
               <BreathingOrb className="-top-24 left-1/2 h-72 w-[560px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(255,90,31,0.16),transparent)] blur-[110px]" />
               <PixelField count={64} seed={21} active className="opacity-60 [mask-image:radial-gradient(ellipse_70%_80%_at_50%_50%,black,transparent)]" />

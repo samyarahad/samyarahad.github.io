@@ -1,5 +1,6 @@
 import { Navbar, Hero } from "@/components/site/navbar-hero";
 import { StatsStrip, FeatureBento } from "@/components/site/feature-bento";
+import { ShowcaseGallery } from "@/components/site/showcase-gallery";
 import { ProductTour } from "@/components/site/product-tour";
 import { Infrastructure, Changelog, CtaSection, Footer } from "@/components/site/sections";
 
@@ -12,6 +13,7 @@ export default function Home() {
         <Hero />
         <StatsStrip />
         <FeatureBento />
+        <ShowcaseGallery />
         <ProductTour />
         <Infrastructure />
         <Changelog />

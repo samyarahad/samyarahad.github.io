@@ -193,6 +193,147 @@ html {
   transform: translateX(120%);
 }
 
+/* Showcase — Horizon-style image cards: hover (or tap on touch) unfolds a
+   staggered description panel over the media, with light-beam sweep, zoom,
+   brand-flip tag chip and rising arrow. Default = collapsed. */
+.pp-show {
+  outline: none;
+  cursor: pointer;
+}
+.pp-show-media {
+  transition: transform 1s cubic-bezier(0.21, 0.6, 0.35, 1), filter 1s cubic-bezier(0.21, 0.6, 0.35, 1);
+  will-change: transform, filter;
+}
+
+/* bottom scrim — always slightly on so the resting title reads */
+.pp-show-scrim {
+  opacity: 0.62;
+  transition: opacity 0.55s ease;
+  background: linear-gradient(to top, rgba(4, 4, 6, 0.94) 0%, rgba(4, 4, 6, 0.58) 30%, rgba(4, 4, 6, 0.12) 58%, transparent 78%);
+}
+
+/* extra description rows unfold via grid-rows trick (smooth, no max-height) */
+.pp-show-extra {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: grid-template-rows 0.62s cubic-bezier(0.21, 0.6, 0.35, 1), opacity 0.5s ease, transform 0.62s cubic-bezier(0.21, 0.6, 0.35, 1);
+}
+.pp-show-extra > div {
+  overflow: hidden;
+  min-height: 0;
+}
+.pp-show-extra > div > * {
+  transition-delay: 70ms;
+}
+
+/* tag chip + arrow */
+.pp-show-tag {
+  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease, transform 0.35s ease;
+}
+.pp-show-arrow {
+  opacity: 0;
+  transform: translate(-6px, 6px) scale(0.85);
+  transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.21, 0.6, 0.35, 1);
+}
+
+/* light beam sweep, re-fires on every hover-in */
+.pp-show-beam {
+  position: absolute;
+  top: -22%;
+  bottom: -22%;
+  width: 34%;
+  left: -46%;
+  transform: skewX(-18deg);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.09) 30%, rgba(255, 138, 92, 0.17) 50%, rgba(255, 255, 255, 0.09) 70%, transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* --- pointer-capable devices: hover + keyboard focus reveal --- */
+@media (hover: hover) and (pointer: fine) {
+  .pp-show:hover .pp-show-media,
+  .pp-show:focus-visible .pp-show-media,
+  .pp-show[data-active="1"] .pp-show-media {
+    transform: scale(1.065);
+    filter: brightness(1.14) saturate(1.07);
+  }
+  .pp-show:hover .pp-show-scrim,
+  .pp-show:focus-visible .pp-show-scrim,
+  .pp-show[data-active="1"] .pp-show-scrim {
+    opacity: 1;
+  }
+  .pp-show:hover .pp-show-extra,
+  .pp-show:focus-visible .pp-show-extra,
+  .pp-show[data-active="1"] .pp-show-extra {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .pp-show:hover .pp-show-tag,
+  .pp-show:focus-visible .pp-show-tag,
+  .pp-show[data-active="1"] .pp-show-tag {
+    background: #ff5a1f;
+    border-color: #ff5a1f;
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  .pp-show:hover .pp-show-arrow,
+  .pp-show:focus-visible .pp-show-arrow,
+  .pp-show[data-active="1"] .pp-show-arrow {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+    transition-delay: 90ms;
+  }
+  .pp-show:hover .pp-show-beam,
+  .pp-show[data-active="1"] .pp-show-beam {
+    animation: pp-beam 0.95s cubic-bezier(0.3, 0.55, 0.3, 1) forwards;
+  }
+}
+
+/* --- touch / no-pointer devices: tap toggles via data-active --- */
+@media (hover: none), (pointer: coarse) {
+  .pp-show-arrow {
+    opacity: 1;
+    transform: none; /* visible tap affordance */
+  }
+  .pp-show-beam {
+    display: none;
+  }
+  .pp-show[data-active="1"] .pp-show-media {
+    transform: scale(1.065);
+    filter: brightness(1.14) saturate(1.07);
+  }
+  .pp-show[data-active="1"] .pp-show-scrim {
+    opacity: 1;
+  }
+  .pp-show[data-active="1"] .pp-show-extra {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .pp-show[data-active="1"] .pp-show-tag {
+    background: #ff5a1f;
+    border-color: #ff5a1f;
+    color: #fff;
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes pp-beam {
+  0% { left: -46%; opacity: 0; }
+  18% { opacity: 1; }
+  100% { left: 118%; opacity: 0; }
+}
+
+/* scroll progress hairline under the navbar */
+.pp-progress {
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, rgba(255, 90, 31, 0.25), #ff5a1f 65%, #ff8a5c);
+  box-shadow: 0 0 12px rgba(255, 90, 31, 0.55);
+}
+
 /* film grain — barely-there texture that kills the "flat AI render" feel */
 .pp-noise {
   position: fixed;
