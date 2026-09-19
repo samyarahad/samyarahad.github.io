@@ -7,6 +7,8 @@ import type { NextConfig } from "next";
  *   A separate distDir keeps the export build from touching the dev server's .next.
  */
 const isStaticExport = process.env.NEXT_STATIC_EXPORT === "1";
+// GitHub Pages project sites live under /<repo>/ — set NEXT_BASE_PATH to match.
+const basePath = process.env.NEXT_BASE_PATH || "";
 
 const nextConfig: NextConfig = isStaticExport
   ? {
@@ -15,6 +17,14 @@ const nextConfig: NextConfig = isStaticExport
       images: { unoptimized: true },
       reactStrictMode: false,
       typescript: { ignoreBuildErrors: true },
+      ...(basePath
+        ? {
+            basePath,
+            assetPrefix: basePath,
+            // expose to client bundles (plain <img> tags are NOT rewritten by basePath)
+            env: { NEXT_PUBLIC_BASE_PATH: basePath },
+          }
+        : {}),
     }
   : {
       output: "standalone",

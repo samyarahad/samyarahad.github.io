@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { StatusDot, WindowChrome, TrafficArea, Delta, Avatar } from "./mocks";
+import { asset } from "@/lib/asset";
 
 const NAV = [
   { label: "Overview", icon: "M3 12l9-8 9 8M5 10v10h14V10", active: true },
@@ -53,7 +54,7 @@ export function DashboardMock({ className }: { className?: string }) {
         <aside className="hidden w-44 shrink-0 flex-col border-r border-white/[0.06] bg-[#0a0a0d] p-3 @xl:flex">
           <div className="flex items-center gap-2 px-2 pb-3 pt-1">
             { }
-            <img src="/brand/pixel-ping-logo-nav.png" alt="" className="h-5 w-5 rounded" />
+            <img src={asset("/brand/pixel-ping-logo-nav.png")} alt="" className="h-5 w-5 rounded" />
             <span className="text-[13px] font-semibold tracking-tight text-zinc-200">Pixel &amp; Ping</span>
           </div>
           <nav className="flex flex-col gap-0.5">

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Pixel & Ping" }],
   icons: {
-    icon: "/brand/favicon-128.png",
+    icon: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/brand/favicon-128.png`,
   },
   openGraph: {
     title: "Pixel & Ping — Network management without the noise",

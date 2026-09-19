@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Reveal, Card } from "./feature-bento";
 import { BreathingOrb, GlowCard, PixelField } from "./fx";
 import { cn } from "@/lib/utils";
+import { asset } from "@/lib/asset";
 
 /* ----------------------------- infrastructure ----------------------------- */
 
@@ -53,7 +54,7 @@ export function Infrastructure() {
             {/* fiber imagery — ties the copy to something you can feel */}
             <div className="group relative mt-8 overflow-hidden rounded-2xl border border-white/[0.08]">
               <img
-                src="/showcase/traffic.jpg"
+                src={asset("/showcase/traffic.jpg")}
                 alt="Live fiber traffic"
                 loading="lazy"
                 className="h-56 w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.21,0.6,0.35,1)] group-hover:scale-[1.04] sm:h-64"
@@ -206,7 +207,7 @@ export function CtaSection() {
             <div className="relative overflow-hidden px-6 py-16 text-center sm:px-12 sm:py-20">
               {/* ambient network imagery under everything */}
               <img
-                src="/showcase/network.jpg"
+                src={asset("/showcase/network.jpg")}
                 alt=""
                 aria-hidden
                 loading="lazy"
@@ -274,7 +275,9 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
             <div className="flex items-center gap-2.5">
-              <img src="/brand/logo-mark.png" alt="" className="h-8 w-8 object-contain" />
+              <span className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-b from-[#26262c] to-[#131316] ring-1 ring-white/[0.16] shadow-[0_2px_12px_-2px_rgba(0,0,0,0.7),inset_0_1px_0_0_rgba(255,255,255,0.08)]">
+                <img src={asset("/brand/logo-mark.png")} alt="" className="h-7 w-7 object-contain drop-shadow-[0_0_10px_rgba(255,90,31,0.45)]" />
+              </span>
               <span className="text-[15px] font-semibold tracking-tight">Pixel &amp; Ping</span>
             </div>
             <p className="mt-4 max-w-xs text-[13.5px] leading-relaxed text-zinc-500">

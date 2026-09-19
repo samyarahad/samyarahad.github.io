@@ -13,6 +13,7 @@ import {
   PixelField,
   Tilt,
 } from "./fx";
+import { asset } from "@/lib/asset";
 
 const LINKS = [
   { href: "#features", label: "Features" },
@@ -56,13 +57,14 @@ export function Navbar() {
       >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 lg:px-8">
         <a href="#top" className="group flex items-center gap-2.5">
-          {/* new brand mark */}
-          <span className="relative flex h-8 w-8 items-center justify-center">
-            <span className="absolute inset-0 rounded-lg bg-[#ff5a1f]/0 blur-md transition-all duration-300 group-hover:bg-[#ff5a1f]/25" />
+          {/* brand mark on a light plate → stays readable on the near-black nav */}
+          <span className="relative flex h-9 w-9 items-center justify-center">
+            <span className="absolute inset-0 rounded-xl bg-[#ff5a1f]/0 blur-md transition-all duration-300 group-hover:bg-[#ff5a1f]/30" />
+            <span className="absolute inset-0 rounded-xl bg-gradient-to-b from-[#26262c] to-[#131316] ring-1 ring-white/[0.16] shadow-[0_2px_12px_-2px_rgba(0,0,0,0.7),inset_0_1px_0_0_rgba(255,255,255,0.08)] transition-transform duration-300 group-hover:scale-105" />
             <img
-              src="/brand/logo-mark.png"
+              src={asset("/brand/logo-mark.png")}
               alt="Pixel & Ping logo"
-              className="relative h-8 w-8 object-contain transition-transform duration-300 group-hover:scale-105"
+              className="relative h-7 w-7 object-contain drop-shadow-[0_0_10px_rgba(255,90,31,0.45)]"
             />
           </span>
           <span className="text-[15px] font-semibold tracking-tight">Pixel &amp; Ping</span>
@@ -177,13 +179,15 @@ export function Hero() {
             initial={{ opacity: 0, scale: 0.8, filter: "blur(12px)" }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
             transition={{ duration: 0.9, ease: [0.21, 0.6, 0.35, 1] }}
-            className="relative mx-auto mb-8 flex h-24 w-24 items-center justify-center"
+            className="relative mx-auto mb-8 flex h-[104px] w-[104px] items-center justify-center"
           >
-            <div className="pp-breathe absolute inset-0 rounded-full bg-[radial-gradient(closest-side,rgba(255,90,31,0.22),transparent)] blur-xl" />
+            <div className="pp-breathe absolute -inset-3 rounded-full bg-[radial-gradient(closest-side,rgba(255,90,31,0.26),transparent)] blur-xl" />
+            {/* light plate behind the badge → separates it from the dark hero */}
+            <span className="absolute inset-0 rounded-full bg-[radial-gradient(closest-side,#202027,#101014_70%)] ring-1 ring-white/[0.14] shadow-[0_18px_50px_-12px_rgba(0,0,0,0.8),inset_0_1px_0_0_rgba(255,255,255,0.09)]" />
             <img
-              src="/brand/logo-full.png"
+              src={asset("/brand/logo-full.png")}
               alt="Pixel & Ping"
-              className="relative h-24 w-24 object-contain drop-shadow-[0_0_28px_rgba(255,90,31,0.35)]"
+              className="relative h-[92px] w-[92px] object-contain drop-shadow-[0_0_30px_rgba(255,90,31,0.45)]"
             />
           </motion.div>
 

@@ -11,6 +11,7 @@
 import { useState } from "react";
 import { GlowCard, PixelField, Reveal } from "./fx";
 import { cn } from "@/lib/utils";
+import { asset } from "@/lib/asset";
 
 type Item = {
   img: string;
@@ -103,7 +104,7 @@ function ShowcaseCard({ item, index }: { item: Item; index: number }) {
         >
           {/* media */}
           <img
-            src={item.img}
+            src={asset(item.img)}
             alt={item.title}
             loading="lazy"
             className="pp-show-media absolute inset-0 h-full w-full object-cover"
